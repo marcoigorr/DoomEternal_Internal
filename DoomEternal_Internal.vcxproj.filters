@@ -19,6 +19,9 @@
     <Filter Include="mem">
       <UniqueIdentifier>{fca45918-3b4f-4e5a-adcd-40b5dff0859a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Offsets">
+      <UniqueIdentifier>{170fe65b-8fc8-4ef7-8a72-ba89a50f483b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -29,6 +32,9 @@
     </ClInclude>
     <ClInclude Include="mem.h">
       <Filter>mem</Filter>
+    </ClInclude>
+    <ClInclude Include="offsets.hpp">
+      <Filter>Offsets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
