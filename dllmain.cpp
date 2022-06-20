@@ -6,6 +6,7 @@
 #include "mem.h"
 #include "offsets.hpp"
 using namespace Offsets;
+using namespace Offsets::pEnt;
 
 
 DWORD WINAPI MainThread(HMODULE hModule)
@@ -36,6 +37,10 @@ DWORD WINAPI MainThread(HMODULE hModule)
     {
         uintptr_t* ptrPlayerEnt = (uintptr_t*)(moduleBase + oPlayerEnt[0]);        
 
+        if (GetAsyncKeyState(VK_F10) & 1) // testing
+        {                    
+        }
+
         // Key input
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
@@ -58,47 +63,72 @@ DWORD WINAPI MainThread(HMODULE hModule)
                 // DOOMEternalx64vk.exe+1583451 - 89 82 28010000 - mov[rdx+00000128],eax (ammo value on screen)
                 mem::Nop((BYTE*)(moduleBase + 0x1583451), 6);
                 // DOOMEternalx64vk.exe+1561BD5 - 89 82 18010000 - mov [rdx+00000118],eax (warn low ammo)
-                mem::Nop((BYTE*)(moduleBase + 0x1561BD5), 6);
-                
-                /*
+                mem::Nop((BYTE*)(moduleBase + 0x1561BD5), 6); 
+
+                // DOOMEternalx64vk.exe+1906750 - F3 0F11 4B 08 - movss [rbx+08],xmm1 (update sword charge value)
+                mem::Nop((BYTE*)(moduleBase + 0x1906750), 5);
+                                
+                // Chainsaw Read and Write
+                uintptr_t* ptrChainsawCharge = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, oChainsawCharge);
+                if (ptrChainsawCharge)
+                    *(int*)ptrChainsawCharge = 3;
+
                 // Combat Shotgun Read and Write
-                uintptr_t aCombatShotgunAmmo = mem::FindDMAAddy(playerEnt, pEnt::oCombatShotgunAmmo);
+                uintptr_t* ptrCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oCombatShotgun);
+                if (ptrCombatShotgunAmmo)
+                    *(int*)ptrCombatShotgunAmmo = 24;
+
+                // Heavy Rifle Read and Write
+                uintptr_t* ptrHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oHeavyRifle);
+                if (ptrHeavyRifleAmmo)
+                    *(int*)ptrHeavyRifleAmmo = 180;
+
+                // Plasma Gun Read and Write
+                uintptr_t* ptrPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oPlasmaGun);
+                if (ptrPlasmaGun)
+                    *(int*)ptrPlasmaGun = 250;
+
+                // Rocket Launcher Read and Write
+                uintptr_t* ptrRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oRocketLauncher);
+                if (ptrRocketLauncher)
+                    *(int*)ptrRocketLauncher = 13;
+                
+                // BFG Read and Write
+                uintptr_t* ptrBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oBFG);
+                if (ptrBFG)
+                    *(int*)ptrBFG = 60;
+                
+                // Sword Read, Nop and Write
+                uintptr_t* ptrSword = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oSword);
+                if (ptrSword)
+                    *(float*)ptrSword = 3.0f;
+
+                /* ---------------------------------------------------------------------------------------------------------- */
+
+                // Combat Shotgun Read and Write
+                uintptr_t* aCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oCombatShotgun);
                 if (aCombatShotgunAmmo)
                     *(int*)aCombatShotgunAmmo = 24;
 
-                // Chainsaw Read and Write
-                uintptr_t aChainsawCharge = mem::FindDMAAddy(playerEnt, pEnt::oChainsawCharge);
-                if (aChainsawCharge)
-                    *(int*)aChainsawCharge = 3;
-
                 // Heavy Rifle Read and Write
-                uintptr_t aHeavyRifleAmmo = mem::FindDMAAddy(playerEnt, pEnt::oHeavyRifleAmmo);
+                uintptr_t* aHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oHeavyRifle);
                 if (aHeavyRifleAmmo)
                     *(int*)aHeavyRifleAmmo = 180;
 
                 // Plasma Gun Read and Write
-                uintptr_t aPlasmaGun = mem::FindDMAAddy(playerEnt, pEnt::oPlasmaGun);
+                uintptr_t* aPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oPlasmaGun);
                 if (aPlasmaGun)
                     *(int*)aPlasmaGun = 250;
 
                 // Rocket Launcher Read and Write
-                uintptr_t aRocketLauncher = mem::FindDMAAddy(playerEnt, pEnt::oRocketLauncher);
+                uintptr_t* aRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oRocketLauncher);
                 if (aRocketLauncher)
                     *(int*)aRocketLauncher = 13;
 
                 // BFG Read and Write
-                uintptr_t aBFG = mem::FindDMAAddy(playerEnt, pEnt::oBFG);
+                uintptr_t* aBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oBFG);
                 if (aBFG)
-                    *(int*)aBFG = 60;
-
-                // Sword Read, Nop and Write
-                uintptr_t aSword = mem::FindDMAAddy(playerEnt, pEnt::oSword);
-                if (!aSword) continue;
-
-                // DOOMEternalx64vk.exe+1906750 - F3 0F11 4B 08 - movss [rbx+08],xmm1 (update sword charge value)
-                mem::Nop((BYTE*)(moduleBase + 0x1906750), 5);
-                *(int*)aSword = 1077936128; // = 3d
-                */              
+                    *(int*)aBFG = 60;                          
             }
             else if (!bAmmo || ejectDLL) // write original code
             {
@@ -121,8 +151,10 @@ DWORD WINAPI MainThread(HMODULE hModule)
             {
                 // DOOMEternalx64vk.exe+C93660 - F3 0F10 7C 24 48  - movss xmm7,[rsp+48]
                 mem::Nop((BYTE*)(moduleBase + 0xC93660), 6);
-
-                // (OP CODE god mode) moduleBase + 0xC9364D - F3 0F11 44 1E 44 - movss [rsi+rbx+44],xmm0
+                
+                uintptr_t* ptrHealth = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, pEnt::oHealth);
+                if (ptrHealth)
+                    *(float*)ptrHealth = 200.0f;               
             }
             else if (!bHealth || ejectDLL)
             {
@@ -159,3 +191,5 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 uintptr_t* ptrAll = (uintptr_t*)*ptrPlayerEnt + 0x0;
 if (!IsBadWritePtr(ptrAll, sizeof(ptrAll)) && !IsBadReadPtr(ptrAll, sizeof(ptrAll)))
 */
+
+// (OP CODE god mode) moduleBase + 0xC9364D - F3 0F11 44 1E 44 - movss [rsi+rbx+44],xmm0

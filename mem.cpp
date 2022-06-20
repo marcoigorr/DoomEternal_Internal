@@ -23,6 +23,11 @@ uintptr_t mem::FindDMAAddy(uintptr_t addr, std::vector<unsigned int> offsets)
 	for (unsigned int i = 0; i < offsets.size(); i++)
 	{
 		cAddr = *(uintptr_t*)cAddr;
+
+		// Check if memory is writable (not ?? in cheatengine)
+		if (IsBadReadPtr((uintptr_t*)cAddr, sizeof(cAddr)))		
+			return 0;
+
 		cAddr += offsets[i];
 	}
 	return cAddr;
