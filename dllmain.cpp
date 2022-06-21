@@ -8,7 +8,6 @@
 using namespace Offsets;
 using namespace Offsets::pEnt;
 
-
 DWORD WINAPI MainThread(HMODULE hModule)
 {
     // Create Console
@@ -34,8 +33,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
     std::cout << "\n[+] F1 to enable Unlimited Ammo cheat" << std::endl;
     std::cout << "[+] F2 to enable God mode cheat" << std::endl;
 
-    std::cout << "\n[!] Press INS button to eject cheats, DO NOT CLOSE THIS CONSOLE WINDOW (crash)" << std::endl;
-
+    std::cout << "\n[!] Press INS button to eject cheats, DO NOT CLOSE THIS CONSOLE WINDOW (crash)\n" << std::endl;
 
     // Hack loop 
     while (!ejectDLL)
@@ -60,83 +58,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
             std::cout << "[+] Changed Ammo hack status to -> " << std::uppercase << bAmmo << std::endl;
 
             if (bAmmo && !ejectDLL) // write and nop 
-            {
-                /* ----------------------------------------------- CAMPAIGN ----------------------------------------------------------- */
-
-                uintptr_t* C_ptrChainsawCharge = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, oChainsawCharge);
-                if (C_ptrChainsawCharge)
-                    *(int*)C_ptrChainsawCharge = 3;
-
-                uintptr_t* C_ptrCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oCombatShotgun);
-                if (C_ptrCombatShotgunAmmo)
-                    *(int*)C_ptrCombatShotgunAmmo = 24;
-
-                uintptr_t* C_ptrHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oHeavyRifle);
-                if (C_ptrHeavyRifleAmmo)
-                    *(int*)C_ptrHeavyRifleAmmo = 180;
-
-                uintptr_t* C_ptrPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oPlasmaGun);
-                if (C_ptrPlasmaGun)
-                    *(int*)C_ptrPlasmaGun = 250;
-
-                uintptr_t* C_ptrRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oRocketLauncher);
-                if (C_ptrRocketLauncher)
-                    *(int*)C_ptrRocketLauncher = 13;
-                
-                uintptr_t* C_ptrBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oBFG);
-                if (C_ptrBFG)
-                    *(int*)C_ptrBFG = 60;
-                
-                uintptr_t* ptrSword = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oSword);
-                if (ptrSword)
-                    *(float*)ptrSword = 3.0f;
-
-                /* ----------------------------------------------- ANCIENT GODS ----------------------------------------------------------- */
-
-                uintptr_t* AG1_ptrCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oCombatShotgun);
-                if (AG1_ptrCombatShotgunAmmo)
-                    *(int*)AG1_ptrCombatShotgunAmmo = 24;
-
-                uintptr_t* AG1_ptrHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oHeavyRifle);
-                if (AG1_ptrHeavyRifleAmmo)
-                    *(int*)AG1_ptrHeavyRifleAmmo = 180;
-
-                uintptr_t* AG1_ptrPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oPlasmaGun);
-                if (AG1_ptrPlasmaGun)
-                    *(int*)AG1_ptrPlasmaGun = 250;
-
-                uintptr_t* AG1_ptrRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oRocketLauncher);
-                if (AG1_ptrRocketLauncher)
-                    *(int*)AG1_ptrRocketLauncher = 13;
-
-                uintptr_t* AG1_ptrBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oBFG);
-                if (AG1_ptrBFG)
-                    *(int*)AG1_ptrBFG = 60;
-
-                /* ----------------------------------------------- HORDE ----------------------------------------------------------- */
-
-                uintptr_t* horde_ptrCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oCombatShotgun);
-                if (horde_ptrCombatShotgunAmmo)
-                    *(int*)horde_ptrCombatShotgunAmmo = 24;
-
-                uintptr_t* horde_ptrHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oHeavyRifle);
-                if (horde_ptrHeavyRifleAmmo)
-                    *(int*)horde_ptrHeavyRifleAmmo = 180;
-
-                uintptr_t* horde_ptrPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oPlasmaGun);
-                if (horde_ptrPlasmaGun)
-                    *(int*)horde_ptrPlasmaGun = 250;
-
-                uintptr_t* horde_ptrRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oRocketLauncher);
-                if (horde_ptrRocketLauncher)
-                    *(int*)horde_ptrRocketLauncher = 13;
-
-                uintptr_t* horde_ptrBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oBFG);
-                if (horde_ptrBFG)
-                    *(int*)horde_ptrBFG = 60;
-
-                // --- Nopping
-                 
+            {                              
                 // DOOMEternalx64vk.exe+1D24A03 - 89 7B 40 - mov [rbx+40],edi
                 mem::Nop((BYTE*)(moduleBase + 0x1D24A03), 3);
                 // DOOMEternalx64vk.exe+1D24A31 - 89 7B 40 - mov [rbx+40],edi
@@ -148,6 +70,36 @@ DWORD WINAPI MainThread(HMODULE hModule)
 
                 // DOOMEternalx64vk.exe+1906750 - F3 0F11 4B 08 - movss [rbx+08],xmm1 (update sword charge value)
                 mem::Nop((BYTE*)(moduleBase + 0x1906750), 5);
+
+
+                std::vector<uintptr_t*> ptrWeapons = {
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, oChainsawCharge),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oCombatShotgun),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oHeavyRifle),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oPlasmaGun),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oRocketLauncher),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oBFG),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oCombatShotgun),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oHeavyRifle),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oPlasmaGun),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oRocketLauncher),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oBFG),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oCombatShotgun),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oHeavyRifle),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oPlasmaGun),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oRocketLauncher),
+                (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oBFG),
+                };
+
+                for (int i = 0; i < ptrWeapons.size(); i++)
+                {
+                    if (ptrWeapons[i])
+                        *(int*)ptrWeapons[i] = 180;
+                }
+
+                uintptr_t* ptrSword = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oSword);
+                if (ptrSword)
+                    *(float*)ptrSword = 3.0f;
             }
             else if (!bAmmo || ejectDLL) // write original code
             {

@@ -7,4 +7,3 @@
 #include <TlHelp32.h>
 
 #include <vector>
-#include <string>
