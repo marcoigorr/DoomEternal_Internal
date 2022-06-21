@@ -203,11 +203,3 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
     }
     return TRUE;
 }
-
-/*
-// Check if memory is writable/readable (?? in cheatengine)
-uintptr_t* ptrAll = (uintptr_t*)*ptrPlayerEnt + 0x0;
-if (!IsBadWritePtr(ptrAll, sizeof(ptrAll)) && !IsBadReadPtr(ptrAll, sizeof(ptrAll)))
-*/
-
-// (OP CODE god mode) moduleBase + 0xC9364D - F3 0F11 44 1E 44 - movss [rsi+rbx+44],xmm0
