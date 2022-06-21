@@ -54,8 +54,84 @@ DWORD WINAPI MainThread(HMODULE hModule)
             bAmmo = !bAmmo;
             std::cout << "[+] Changed Ammo hack status to -> " << std::uppercase << bAmmo << std::endl;
 
-            if (bAmmo && !ejectDLL) // nop 
+            if (bAmmo && !ejectDLL) // write and nop 
             {
+                /* ----------------------------------------------- CAMPAIGN ----------------------------------------------------------- */
+
+                uintptr_t* C_ptrChainsawCharge = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, oChainsawCharge);
+                if (C_ptrChainsawCharge)
+                    *(int*)C_ptrChainsawCharge = 3;
+
+                uintptr_t* C_ptrCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oCombatShotgun);
+                if (C_ptrCombatShotgunAmmo)
+                    *(int*)C_ptrCombatShotgunAmmo = 24;
+
+                uintptr_t* C_ptrHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oHeavyRifle);
+                if (C_ptrHeavyRifleAmmo)
+                    *(int*)C_ptrHeavyRifleAmmo = 180;
+
+                uintptr_t* C_ptrPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oPlasmaGun);
+                if (C_ptrPlasmaGun)
+                    *(int*)C_ptrPlasmaGun = 250;
+
+                uintptr_t* C_ptrRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oRocketLauncher);
+                if (C_ptrRocketLauncher)
+                    *(int*)C_ptrRocketLauncher = 13;
+                
+                uintptr_t* C_ptrBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oBFG);
+                if (C_ptrBFG)
+                    *(int*)C_ptrBFG = 60;
+                
+                uintptr_t* ptrSword = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oSword);
+                if (ptrSword)
+                    *(float*)ptrSword = 3.0f;
+
+                /* ----------------------------------------------- ANCIENT GODS ----------------------------------------------------------- */
+
+                uintptr_t* AG1_ptrCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oCombatShotgun);
+                if (AG1_ptrCombatShotgunAmmo)
+                    *(int*)AG1_ptrCombatShotgunAmmo = 24;
+
+                uintptr_t* AG1_ptrHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oHeavyRifle);
+                if (AG1_ptrHeavyRifleAmmo)
+                    *(int*)AG1_ptrHeavyRifleAmmo = 180;
+
+                uintptr_t* AG1_ptrPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oPlasmaGun);
+                if (AG1_ptrPlasmaGun)
+                    *(int*)AG1_ptrPlasmaGun = 250;
+
+                uintptr_t* AG1_ptrRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oRocketLauncher);
+                if (AG1_ptrRocketLauncher)
+                    *(int*)AG1_ptrRocketLauncher = 13;
+
+                uintptr_t* AG1_ptrBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oBFG);
+                if (AG1_ptrBFG)
+                    *(int*)AG1_ptrBFG = 60;
+
+                /* ----------------------------------------------- HORDE ----------------------------------------------------------- */
+
+                uintptr_t* horde_ptrCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oCombatShotgun);
+                if (horde_ptrCombatShotgunAmmo)
+                    *(int*)horde_ptrCombatShotgunAmmo = 24;
+
+                uintptr_t* horde_ptrHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oHeavyRifle);
+                if (horde_ptrHeavyRifleAmmo)
+                    *(int*)horde_ptrHeavyRifleAmmo = 180;
+
+                uintptr_t* horde_ptrPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oPlasmaGun);
+                if (horde_ptrPlasmaGun)
+                    *(int*)horde_ptrPlasmaGun = 250;
+
+                uintptr_t* horde_ptrRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oRocketLauncher);
+                if (horde_ptrRocketLauncher)
+                    *(int*)horde_ptrRocketLauncher = 13;
+
+                uintptr_t* horde_ptrBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Horde::oBFG);
+                if (horde_ptrBFG)
+                    *(int*)horde_ptrBFG = 60;
+
+                // --- Nopping
+                 
                 // DOOMEternalx64vk.exe+1D24A03 - 89 7B 40 - mov [rbx+40],edi
                 mem::Nop((BYTE*)(moduleBase + 0x1D24A03), 3);
                 // DOOMEternalx64vk.exe+1D24A31 - 89 7B 40 - mov [rbx+40],edi
@@ -63,72 +139,10 @@ DWORD WINAPI MainThread(HMODULE hModule)
                 // DOOMEternalx64vk.exe+1583451 - 89 82 28010000 - mov[rdx+00000128],eax (ammo value on screen)
                 mem::Nop((BYTE*)(moduleBase + 0x1583451), 6);
                 // DOOMEternalx64vk.exe+1561BD5 - 89 82 18010000 - mov [rdx+00000118],eax (warn low ammo)
-                mem::Nop((BYTE*)(moduleBase + 0x1561BD5), 6); 
+                mem::Nop((BYTE*)(moduleBase + 0x1561BD5), 6);
 
                 // DOOMEternalx64vk.exe+1906750 - F3 0F11 4B 08 - movss [rbx+08],xmm1 (update sword charge value)
                 mem::Nop((BYTE*)(moduleBase + 0x1906750), 5);
-                                
-                // Chainsaw Read and Write
-                uintptr_t* ptrChainsawCharge = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, oChainsawCharge);
-                if (ptrChainsawCharge)
-                    *(int*)ptrChainsawCharge = 3;
-
-                // Combat Shotgun Read and Write
-                uintptr_t* ptrCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oCombatShotgun);
-                if (ptrCombatShotgunAmmo)
-                    *(int*)ptrCombatShotgunAmmo = 24;
-
-                // Heavy Rifle Read and Write
-                uintptr_t* ptrHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oHeavyRifle);
-                if (ptrHeavyRifleAmmo)
-                    *(int*)ptrHeavyRifleAmmo = 180;
-
-                // Plasma Gun Read and Write
-                uintptr_t* ptrPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oPlasmaGun);
-                if (ptrPlasmaGun)
-                    *(int*)ptrPlasmaGun = 250;
-
-                // Rocket Launcher Read and Write
-                uintptr_t* ptrRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oRocketLauncher);
-                if (ptrRocketLauncher)
-                    *(int*)ptrRocketLauncher = 13;
-                
-                // BFG Read and Write
-                uintptr_t* ptrBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oBFG);
-                if (ptrBFG)
-                    *(int*)ptrBFG = 60;
-                
-                // Sword Read, Nop and Write
-                uintptr_t* ptrSword = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, Campaign::oSword);
-                if (ptrSword)
-                    *(float*)ptrSword = 3.0f;
-
-                /* ---------------------------------------------------------------------------------------------------------- */
-
-                // Combat Shotgun Read and Write
-                uintptr_t* aCombatShotgunAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oCombatShotgun);
-                if (aCombatShotgunAmmo)
-                    *(int*)aCombatShotgunAmmo = 24;
-
-                // Heavy Rifle Read and Write
-                uintptr_t* aHeavyRifleAmmo = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oHeavyRifle);
-                if (aHeavyRifleAmmo)
-                    *(int*)aHeavyRifleAmmo = 180;
-
-                // Plasma Gun Read and Write
-                uintptr_t* aPlasmaGun = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oPlasmaGun);
-                if (aPlasmaGun)
-                    *(int*)aPlasmaGun = 250;
-
-                // Rocket Launcher Read and Write
-                uintptr_t* aRocketLauncher = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oRocketLauncher);
-                if (aRocketLauncher)
-                    *(int*)aRocketLauncher = 13;
-
-                // BFG Read and Write
-                uintptr_t* aBFG = (uintptr_t*)mem::FindDMAAddy(aPlayerEnt, AncientGods::oBFG);
-                if (aBFG)
-                    *(int*)aBFG = 60;                          
             }
             else if (!bAmmo || ejectDLL) // write original code
             {
@@ -147,7 +161,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
             bHealth = !bHealth;
             std::cout << "[+] Changed God mode hack status to -> " << bHealth << std::endl;
 
-            if (bHealth && !ejectDLL)
+            if (bHealth && !ejectDLL) // write and nop
             {
                 // DOOMEternalx64vk.exe+C93660 - F3 0F10 7C 24 48  - movss xmm7,[rsp+48]
                 mem::Nop((BYTE*)(moduleBase + 0xC93660), 6);
@@ -159,8 +173,7 @@ DWORD WINAPI MainThread(HMODULE hModule)
             else if (!bHealth || ejectDLL)
             {
                 mem::Patch((BYTE*)(moduleBase + 0xC93660), (BYTE*)"\xF3\x0F\x10\x7C\x24\x48", 6);
-            }
-            
+            }            
         }
     }
     // Cleanup/Eject
