@@ -30,6 +30,11 @@ DWORD WINAPI MainThread(HMODULE hModule)
     uintptr_t aPlayerEnt = moduleBase + oPlayerEnt[0];
     std::cout << "[+] Game Metrics addr: " << "0x" << std::hex << gMetrics << std::endl;
     std::cout << "[+] Player Ent base addr: " << "0x" << std::hex << aPlayerEnt << std::endl;
+    
+    std::cout << "\n[+] F1 to enable Unlimited Ammo cheat" << std::endl;
+    std::cout << "[+] F2 to enable God mode cheat" << std::endl;
+
+    std::cout << "\n[!] Press INS button to eject cheats, DO NOT CLOSE THIS CONSOLE WINDOW (crash)" << std::endl;
 
 
     // Hack loop 
